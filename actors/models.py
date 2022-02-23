@@ -6,9 +6,10 @@ from uuid import uuid4
 
 class Actor(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid4)
-    name = models.CharField(max_length=32, verbose_name='Имя')
-    surname = models.CharField(max_length=32, verbose_name='Фамилия')
-    birthday = models.PositiveIntegerField(verbose_name='Год рождения')
+    name = models.CharField(max_length=32, verbose_name='имя')
+    surname = models.CharField(max_length=32, verbose_name='фамилия')
+    email = models.EmailField(max_length=64, unique=False, verbose_name='еmail', default='user@domain.zone')
+    birthday = models.PositiveIntegerField(verbose_name='год рождения')
 
     def __str__(self):
         return f'{self.name} {self.surname} {self.birthday}'
