@@ -8,7 +8,7 @@ class Actor(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid4)
     name = models.CharField(max_length=32, verbose_name='имя')
     surname = models.CharField(max_length=32, verbose_name='фамилия')
-    email = models.EmailField(max_length=64, unique=False, verbose_name='еmail', default='user@domain.zone')
+    email = models.EmailField(max_length=64, unique=True, verbose_name='еmail')
     birthday = models.PositiveIntegerField(verbose_name='год рождения')
 
     def __str__(self):

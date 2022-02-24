@@ -23,18 +23,20 @@ class Command(BaseCommand):
         parser.add_argument('num_records', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        models = [Actor, ]
+        models = [Actor, ]              # готовимся обнулять другие модели для тестов
         for model in models:
             model.objects.all().delete()
         print(options)
         _f = Faker()
         for record in range(*options['num_records']):
-            # actor = ActorFactory()        # чвой-то фабрика не заработала
-            actor = Actor()
-            actor.name, actor.surname, actor.email, actor.birthday = _f.first_name(),\
-                        _f.last_name(), _f.email(), _f.year()
-            actor.save()
-            # del actor
+            email = _f.email()
+            Actor.objects.update_or_create(
+                email=email,
+                defaults={'email': email,
+                          'name': _f.first_name(),
+                          'surname': _f.last_name(),
+                          'birthday': _f.year(),
+                          })
 
             user = get_user_model()
             user.objects.get(username="django", is_superuser=True).delete()
