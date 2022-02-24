@@ -1,4 +1,6 @@
 # restapi
+### 24.02.2022
+- подправлена зона и локализация в settings.py
 ### 23.02.2022
 - Настройки в settings.py
 - requirements.txt
