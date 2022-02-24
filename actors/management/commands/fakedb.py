@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from actors.models import Actor
 from faker import Faker
 import factory
@@ -22,12 +23,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('num_records', nargs='+', type=int)
 
+    @transaction.atomic
     def handle(self, *args, **options):
+        _f = Faker()                    # создаем источник данных для базы
         models = [Actor, ]              # готовимся обнулять другие модели для тестов
         for model in models:
             model.objects.all().delete()
-        print(options)
-        _f = Faker()
         for record in range(*options['num_records']):
             email = _f.email()
             Actor.objects.update_or_create(
