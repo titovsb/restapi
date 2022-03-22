@@ -1,5 +1,8 @@
 # DRF lessons
 
+
+### 22.03.2022
+- initial commit for lesson03
 ### 22.03.2022
 - lesson02 выполнен
 - для frontend добавлена стилевая таблица
