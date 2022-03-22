@@ -1,45 +1,62 @@
 import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import AuthorsList from './components/Author.js';
+import './css/css.css';     // делаем табличку с рамочками
+import ActorList from './components/Actor.js';
+import axios from 'axios';
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'authors': []
+            'actors': []
         }
     }
 
+//    componentDidMount() {
+//        const authors = [
+//            {
+//                'name': 'Федор',
+//                'surname': 'Достоевский',
+//                'email': 'email@mail.com',
+//                'birthday': 1821
+//            },
+//            {
+//                'name': 'Александр',
+//                'surname': 'Грин',
+//                'email': 'email@mail.com',
+//                'birthday': 1880
+//            },
+//            {
+//                'name': 'Антон',
+//                'surname': 'Чехов',
+//                'email': 'email@mail.com',
+//                'birthday': 1860
+//            },
+//        ]
+//        this.setState(
+//            {
+//                'authors': authors
+//            }
+//        )
+//    }
+
     componentDidMount() {
-        const authors = [
-            {
-                'first_name': 'Федор',
-                'last_name': 'Достоевский',
-                'birthdate_year': 1821
-            },
-            {
-                'first_name': 'Александр',
-                'last_name': 'Грин',
-                'birthdate_year': 1880
-            },
-            {
-                'first_name': 'Антон',
-                'last_name': 'Чехов',
-                'birthdate_year': 1860
-            },
-        ]
-        this.setState(
-            {
-                'authors': authors
-            }
-        )
+        axios.get('http://localhost:8000/api/actors/?format=json')
+            .then(response => {
+                const actors = response.data
+                this.setState(
+                    {
+                        'actors': actors
+                    }
+                )
+            }).catch(error => console.log(error))
     }
 
     render () {
         return (
             <div>
-                <AuthorsList authors={this.state.authors} />
+                <ActorList actors={this.state.actors} />
             </div>
         )
     }
