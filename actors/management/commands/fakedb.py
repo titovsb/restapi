@@ -22,14 +22,16 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('num_records', nargs='+', type=int)
+        # parser.add_argument('sss', type=str)
 
     @transaction.atomic
     def handle(self, *args, **options):
         _f = Faker()                    # создаем источник данных для базы
-        models = [Actor, ]              # готовимся обнулять другие модели для тестов
+        user = get_user_model()
+        models = [Actor, user]              # готовимся обнулять другие модели для тестов
         for model in models:
             model.objects.all().delete()
-        for record in range(*options['num_records']):
+        for record in range(options['num_records'][0]):
             email = _f.email()
             Actor.objects.update_or_create(
                 email=email,
@@ -38,7 +40,6 @@ class Command(BaseCommand):
                           'surname': _f.last_name(),
                           'birthday': _f.year(),
                           })
-
-            user = get_user_model()
-            user.objects.get(username="django", is_superuser=True).delete()
-            user.objects.create_superuser('django', 'titovsb@gmail.com', 'geekbrains')
+        user.objects.create_superuser(username='django',
+                                      email='titovsb@gmail.com',
+                                      password='geekbrains')
